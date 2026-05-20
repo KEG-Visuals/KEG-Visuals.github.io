@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio — Lorem Ipsum</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #F5F3EE;
+      --surface:   #EDEAE3;
+      --ink:       #1C1B18;
+      --muted:     #7A7870;
+      --rule:      #D4D1C9;
+      --accent:    #3A3733;
+      --serif:     'Cormorant Garamond', Georgia, serif;
+      --sans:      'DM Sans', system-ui, sans-serif;
+      --gap:       clamp(2rem, 5vw, 5rem);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.7;
+      font-size: 16px;
+    }
+
+    /* ── NAV ───────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem clamp(1.5rem, 5vw, 4rem);
+      background: rgba(245, 243, 238, 0.88);
+      backdrop-filter: blur(8px);
+      border-bottom: 0.5px solid var(--rule);
+    }
+
+    .nav-logo {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: 1.1rem;
+      letter-spacing: 0.02em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--ink); }
+
+    /* ── LAYOUT ────────────────────────────────── */
+    main { padding-top: 72px; }
+
+    section {
+      padding: var(--gap) clamp(1.5rem, 8vw, 8rem);
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 3rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 0.5px;
+      background: var(--rule);
+    }
+
+    /* ── HERO ──────────────────────────────────── */
+    #hero {
+      position: relative;
+      min-height: calc(100vh - 72px);
+      border-bottom: 0.5px solid var(--rule);
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.62) 0%,
+        rgba(0, 0, 0, 0.18) 45%,
+        rgba(0, 0, 0, 0.0) 100%
+      );
+    }
+
+    .hero-left {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      padding: clamp(2rem, 5vw, 4rem);
+    }
+
+    .hero-eyebrow {
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.65);
+      font-weight: 400;
+      margin-bottom: 1rem;
+    }
+
+    .hero-name {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      line-height: 1.0;
+      letter-spacing: -0.01em;
+      color: #ffffff;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-name em {
+      font-style: italic;
+      font-weight: 300;
+    }
+
+    .hero-desc {
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.75);
+      max-width: 42ch;
+      line-height: 1.8;
+    }
+
+    .placeholder-text {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--rule);
+    }
+
+    /* ── PROJECTS ──────────────────────────────── */
+    #projects { border-bottom: 0.5px solid var(--rule); }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 2rem;
+    }
+
+    .project-card {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-card.span-12 { grid-column: span 12; }
+    .project-card.span-8  { grid-column: span 8; }
+    .project-card.span-6  { grid-column: span 6; }
+    .project-card.span-4  { grid-column: span 4; }
+
+    .project-images {
+      border: 0.5px solid var(--rule);
+      background: var(--surface);
+      overflow: hidden;
+    }
+
+    .project-images.pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .project-images.pair img {
+      width: 100%;
+      aspect-ratio: 1.287;
+      object-fit: contain;
+      display: block;
+      background: var(--surface);
+    }
+
+    .project-images.pair img:first-child {
+      border-right: 0.5px solid var(--rule);
+    }
+
+    .project-images.logo-set {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1.5rem;
+      gap: 2rem;
+      background: var(--surface);
+    }
+
+    .project-images.logo-set .logo-banner {
+      width: 100%;
+      aspect-ratio: 5;
+      object-fit: contain;
+      display: block;
+    }
+
+    .project-images.logo-set .logo-square {
+      width: 50%;
+      aspect-ratio: 1;
+      object-fit: contain;
+      display: block;
+    }
+
+    .project-images.single img {
+      width: 100%;
+      object-fit: contain;
+      display: block;
+      background: var(--surface);
+    }
+
+    .project-images.single img.ratio-landscape {
+      aspect-ratio: 1.375;
+    }
+
+    .project-images.single img.ratio-square {
+      aspect-ratio: 1.067;
+    }
+
+    .project-images.quad {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .project-images.quad img {
+      width: 100%;
+      aspect-ratio: 4/5;
+      object-fit: contain;
+      display: block;
+      background: var(--surface);
+    }
+
+    .project-images.quad img:nth-child(1),
+    .project-images.quad img:nth-child(2) {
+      border-bottom: 0.5px solid var(--rule);
+    }
+
+    .project-images.quad img:nth-child(odd) {
+      border-right: 0.5px solid var(--rule);
+    }
+
+    .project-info {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .project-title {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: 1.05rem;
+      color: var(--ink);
+    }
+
+    .project-year {
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+
+    .project-category {
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      margin-top: 0.25rem;
+      text-transform: uppercase;
+    }
+
+    /* ── VIDEO ADS ─────────────────────────────── */
+    #video-ads { border-bottom: 0.5px solid var(--rule); }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .video-card {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .video-crop {
+      position: relative;
+      aspect-ratio: 1;
+      overflow: hidden;
+      border: 0.5px solid var(--rule);
+      background: var(--surface);
+    }
+
+    .video-crop iframe {
+      position: absolute;
+      width: 100%;
+      height: 177.78%;
+      top: 50%;
+      transform: translateY(-50%);
+      border: none;
+    }
+
+    /* ── SKILLS ────────────────────────────────── */
+    #skills {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      border-bottom: 0.5px solid var(--rule);
+    }
+
+    .skills-intro {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      line-height: 1.35;
+      color: var(--ink);
+    }
+
+    .skills-intro em { font-style: italic; }
+
+    .skills-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      align-content: start;
+    }
+
+    .skill-group-title {
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1rem;
+      font-weight: 400;
+    }
+
+    .skill-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .skill-list li {
+      font-size: 0.9rem;
+      color: var(--ink);
+      font-weight: 300;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .skill-list li::before {
+      content: '';
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--muted);
+      flex-shrink: 0;
+    }
+
+    /* ── CONTACT ───────────────────────────────── */
+    #contact {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .contact-heading {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      line-height: 1.1;
+      color: var(--ink);
+    }
+
+    .contact-heading em { font-style: italic; }
+
+    .contact-details {
+      padding-top: 0.5rem;
+    }
+
+    .contact-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.1rem 0;
+      border-bottom: 0.5px solid var(--rule);
+    }
+
+    .contact-row:first-child { border-top: 0.5px solid var(--rule); }
+
+    .contact-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    .contact-value {
+      font-size: 0.9rem;
+      color: var(--ink);
+      font-weight: 300;
+    }
+
+    .contact-value a {
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 0.5px solid var(--rule);
+      transition: border-color 0.2s;
+    }
+
+    .contact-value a:hover { border-color: var(--ink); }
+
+    /* ── FOOTER ────────────────────────────────── */
+    footer {
+      padding: 2rem clamp(1.5rem, 8vw, 8rem);
+      border-top: 0.5px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-name {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .footer-copy {
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+
+    /* ── RESPONSIVE ────────────────────────────── */
+    @media (max-width: 900px) {
+      #hero {
+        grid-template-columns: 1fr;
+        align-items: start;
+        min-height: auto;
+        gap: 2.5rem;
+        padding-top: 3rem;
+      }
+
+      .projects-grid { grid-template-columns: 1fr 1fr; }
+
+      .project-card.span-12,
+      .project-card.span-8,
+      .project-card.span-6,
+      .project-card.span-4 { grid-column: span 2; }
+
+      .project-images.pair { grid-template-columns: 1fr; }
+      .project-images.pair img:first-child {
+        border-right: none;
+        border-bottom: 0.5px solid var(--rule);
+      }
+
+      #skills,
+      #contact {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+
+      .video-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+
+    @media (max-width: 560px) {
+      .projects-grid { grid-template-columns: 1fr; }
+      .project-card.span-12,
+      .project-card.span-8,
+      .project-card.span-6,
+      .project-card.span-4 { grid-column: span 1; }
+      .project-images.quad { grid-template-columns: 1fr 1fr; }
+      .skills-columns { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">Lorem Ipsum</a>
+    <ul class="nav-links">
+      <li><a href="#projects">Work</a></li>
+      <li><a href="#video-ads">Motion</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <!-- HERO -->
+    <section id="hero">
+      <img class="hero-bg" src="images/header.png" alt="Portfolio header image" />
+      <div class="hero-overlay"></div>
+      <div class="hero-left">
+        <p class="hero-eyebrow">Visual Designer &amp; Art Director</p>
+        <h1 class="hero-name">Lorem<br><em>Ipsum</em></h1>
+        <p class="hero-desc">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, ut enim ad minim veniam.
+        </p>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <p class="section-label">Selected work</p>
+      <div class="projects-grid">
+
+        <!-- K9 Elite Brochure — full width pair -->
+        <div class="project-card span-12">
+          <div class="project-images pair">
+            <img src="images/inside_3-23.png" alt="K9 Elite brochure interior" />
+            <img src="images/outside_3-23.png" alt="K9 Elite brochure exterior" />
+          </div>
+          <div class="project-info">
+            <div>
+              <p class="project-title">K9 Elite Dog Training</p>
+              <p class="project-category">Print / Brochure</p>
+            </div>
+            <span class="project-year">2023</span>
+          </div>
+        </div>
+
+        <!-- HKNV Logos — 6 cols -->
+        <div class="project-card span-6">
+          <div class="project-images logo-set">
+            <img class="logo-banner" src="images/HKNV_FullLogo.png" alt="Hawk Navigations full logo" />
+            <img class="logo-square" src="images/Logo_Final_9-28_LARGE.png" alt="HKNV icon logo" />
+          </div>
+          <div class="project-info">
+            <div>
+              <p class="project-title">Hawk Navigations</p>
+              <p class="project-category">Logo Design</p>
+            </div>
+            <span class="project-year">2023</span>
+          </div>
+        </div>
+
+        <!-- Jaylyn Logo — 6 cols -->
+        <div class="project-card span-6">
+          <div class="project-images single">
+            <img class="ratio-landscape" src="images/JayWIP.png" alt="Diamonds Jaylyn logo" />
+          </div>
+          <div class="project-info">
+            <div>
+              <p class="project-title">Diamonds — Jaylyn</p>
+              <p class="project-category">Logo Design</p>
+            </div>
+            <span class="project-year">2023</span>
+          </div>
+        </div>
+
+        <!-- OKSubies Facebook Ad — 4 cols -->
+        <div class="project-card span-4">
+          <div class="project-images single">
+            <img class="ratio-square" src="images/AD_Sample.png" alt="OKSubies special sale Facebook ad" />
+          </div>
+          <div class="project-info">
+            <div>
+              <p class="project-title">OKSubies</p>
+              <p class="project-category">Social Media / Ad</p>
+            </div>
+            <span class="project-year">2024</span>
+          </div>
+        </div>
+
+        <!-- Sooner Indian Motorcycle Instagram Ads — 8 cols, 2x2 -->
+        <div class="project-card span-8">
+          <div class="project-images quad">
+            <img src="images/ExampleModernPower.png" alt="Indian Scout Classic ad" />
+            <img src="images/SampleCF.png" alt="CFMOTO adventure ad" />
+            <img src="images/SampleDestiny.png" alt="Pave Your Own Destiny ad" />
+            <img src="images/SampleLaunchLarger.png" alt="CFMOTO 675SS launch ad" />
+          </div>
+          <div class="project-info">
+            <div>
+              <p class="project-title">Sooner Indian Motorcycle</p>
+              <p class="project-category">Social Media / Ads</p>
+            </div>
+            <span class="project-year">2024</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- VIDEO ADS -->
+    <section id="video-ads">
+      <p class="section-label">Motion work</p>
+      <div class="video-grid">
+
+        <div class="video-card">
+          <div class="video-crop">
+            <iframe
+              src="https://www.youtube.com/embed/RmwQOhF3sAU"
+              title="Video ad — Xtreme Lube"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+            </iframe>
+          </div>
+          <div class="project-info">
+            <div>
+              <p class="project-title">Lorem Ipsum</p>
+              <p class="project-category">Video Ad</p>
+            </div>
+            <span class="project-year">2024</span>
+          </div>
+        </div>
+
+        <div class="video-card">
+          <div class="video-crop">
+            <iframe
+              src="https://www.youtube.com/embed/T_4I_G52Zs4"
+              title="Video ad — Lorem Ipsum"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+            </iframe>
+          </div>
+          <div class="project-info">
+            <div>
+              <p class="project-title">Lorem Ipsum</p>
+              <p class="project-category">Video Ad</p>
+            </div>
+            <span class="project-year">2024</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <div>
+        <p class="section-label">Skills &amp; tools</p>
+        <p class="skills-intro">
+          Ut enim ad minim veniam, quis nostrud <em>exercitation</em> ullamco laboris nisi ut aliquip ex ea commodo.
+        </p>
+      </div>
+
+      <div class="skills-columns">
+        <div>
+          <p class="skill-group-title">Design</p>
+          <ul class="skill-list">
+            <li>Adobe Illustrator</li>
+            <li>Adobe Photoshop</li>
+            <li>Adobe InDesign</li>
+            <li>Figma</li>
+            <li>Procreate</li>
+          </ul>
+        </div>
+        <div>
+          <p class="skill-group-title">Disciplines</p>
+          <ul class="skill-list">
+            <li>Brand Identity</li>
+            <li>Editorial Design</li>
+            <li>Typography</li>
+            <li>Art Direction</li>
+            <li>Illustration</li>
+          </ul>
+        </div>
+        <div>
+          <p class="skill-group-title">Production</p>
+          <ul class="skill-list">
+            <li>Print Production</li>
+            <li>Colour Management</li>
+            <li>Packaging</li>
+            <li>Motion Graphics</li>
+          </ul>
+        </div>
+        <div>
+          <p class="skill-group-title">Soft Skills</p>
+          <ul class="skill-list">
+            <li>Client Presentation</li>
+            <li>Creative Direction</li>
+            <li>Project Management</li>
+            <li>Conceptual Thinking</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div>
+        <p class="section-label">Get in touch</p>
+        <h2 class="contact-heading">Let's work<br><em>together</em></h2>
+      </div>
+
+      <div class="contact-details">
+        <div class="contact-row">
+          <span class="contact-label">Email</span>
+          <span class="contact-value"><a href="mailto:lorem@example.com">lorem@example.com</a></span>
+        </div>
+        <div class="contact-row">
+          <span class="contact-label">Instagram</span>
+          <span class="contact-value"><a href="#">@loremipsum</a></span>
+        </div>
+        <div class="contact-row">
+          <span class="contact-label">LinkedIn</span>
+          <span class="contact-value"><a href="#">Lorem Ipsum</a></span>
+        </div>
+        <div class="contact-row">
+          <span class="contact-label">Location</span>
+          <span class="contact-value">Lorem City, LR</span>
+        </div>
+        <div class="contact-row">
+          <span class="contact-label">Availability</span>
+          <span class="contact-value">Open to projects</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <span class="footer-name">Lorem Ipsum</span>
+    <span class="footer-copy">&copy; 2025. All rights reserved.</span>
+  </footer>
+
+</body>
+</html>
