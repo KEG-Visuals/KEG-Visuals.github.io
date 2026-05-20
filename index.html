@@ -284,6 +284,7 @@
     .project-images.quad {
       display: grid;
       grid-template-columns: 1fr 1fr;
+      overflow: visible;
     }
 
     .project-images.quad img {
@@ -292,6 +293,16 @@
       object-fit: contain;
       display: block;
       background: var(--surface);
+      position: relative;
+      z-index: 1;
+      cursor: pointer;
+      transition: transform 0.25s ease 0s, z-index 0s 0s;
+    }
+
+    .project-images.quad img:hover {
+      transform: scale(1.1);
+      z-index: 10;
+      transition: transform 0.25s ease 1s, z-index 0s 1s;
     }
 
     .project-images.quad img:nth-child(1),
@@ -301,6 +312,37 @@
 
     .project-images.quad img:nth-child(odd) {
       border-right: 0.5px solid var(--rule);
+    }
+
+    /* ── LIGHTBOX ───────────────────────────────── */
+    #keg-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0);
+      pointer-events: none;
+      transition: background 0.5s ease;
+      cursor: pointer;
+    }
+
+    #keg-lightbox.active {
+      background: rgba(0, 0, 0, 0.78);
+      pointer-events: all;
+    }
+
+    #keg-lightbox.closing {
+      background: rgba(0, 0, 0, 0);
+      transition: background 0.25s ease;
+    }
+
+    #keg-lightbox img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      cursor: default;
     }
 
     .project-info {
@@ -337,7 +379,7 @@
       flex-direction: column;
       border: 0.5px solid var(--rule);
       background: var(--surface);
-      overflow: hidden;
+      overflow: visible;
     }
 
     .project-images.xtreme-set .xtreme-banner {
@@ -347,6 +389,16 @@
       display: block;
       background: var(--surface);
       border-bottom: 0.5px solid var(--rule);
+      position: relative;
+      z-index: 1;
+      cursor: pointer;
+      transition: transform 0.25s ease 0s, z-index 0s 0s;
+    }
+
+    .project-images.xtreme-set .xtreme-banner:hover {
+      transform: scale(1.1);
+      z-index: 10;
+      transition: transform 0.25s ease 1s, z-index 0s 1s;
     }
 
     .project-images.xtreme-set .xtreme-stacked {
@@ -355,6 +407,16 @@
       display: block;
       background: var(--surface);
       border-top: 0.5px solid var(--rule);
+      position: relative;
+      z-index: 1;
+      cursor: pointer;
+      transition: transform 0.25s ease 0s, z-index 0s 0s;
+    }
+
+    .project-images.xtreme-set .xtreme-stacked:hover {
+      transform: scale(1.1);
+      z-index: 10;
+      transition: transform 0.25s ease 1s, z-index 0s 1s;
     }
 
     .project-images.xtreme-set .xtreme-stacked.ratio-near-square {
@@ -684,10 +746,10 @@
         <!-- Sooner Indian Motorcycle Instagram Ads — 7 cols, 2x2 -->
         <div class="project-card span-8">
           <div class="project-images quad">
-            <img src="images/ExampleModernPower.png" alt="Indian Scout Classic ad" />
-            <img src="images/SampleCF.png" alt="CFMOTO adventure ad" />
-            <img src="images/SampleDestiny.png" alt="Pave Your Own Destiny ad" />
-            <img src="images/SampleLaunchLarger.png" alt="CFMOTO 675SS launch ad" />
+            <img src="images/ExampleModernPower.png" alt="Indian Scout Classic ad" loading="lazy" />
+            <img src="images/SampleCF.png" alt="CFMOTO adventure ad" loading="lazy" />
+            <img src="images/SampleDestiny.png" alt="Pave Your Own Destiny ad" loading="lazy" />
+            <img src="images/SampleLaunchLarger.png" alt="CFMOTO 675SS launch ad" loading="lazy" />
           </div>
           <div class="project-info">
             <div>
@@ -817,6 +879,83 @@
     <span class="footer-name">KEG Visuals</span>
     <span class="footer-copy">&copy; 2026. All rights reserved.</span>
   </footer>
+
+  <!-- LIGHTBOX -->
+  <div id="keg-lightbox">
+    <img src="" alt="Expanded ad" />
+  </div>
+
+  <script>
+    const lightbox    = document.getElementById('keg-lightbox');
+    const lightboxImg = lightbox.querySelector('img');
+
+    const adSelectors = [
+      '.project-images.quad img',
+      '.project-images.xtreme-set .xtreme-banner',
+      '.project-images.xtreme-set .xtreme-stacked'
+    ];
+
+    function closeLightbox() {
+      lightboxImg.style.transition = 'transform 0.25s ease';
+      lightboxImg.style.transform  = 'scale(0)';
+      lightbox.classList.add('closing');
+      setTimeout(() => {
+        lightbox.classList.remove('active', 'closing');
+        lightboxImg.src = '';
+        lightboxImg.style.transform  = '';
+        lightboxImg.style.transition = '';
+      }, 250);
+    }
+
+    document.querySelectorAll(adSelectors.join(', ')).forEach(img => {
+      img.addEventListener('click', () => {
+        const rect = img.getBoundingClientRect();
+
+        // Set src and make lightbox active (background fades in)
+        lightboxImg.src = img.src;
+        lightbox.classList.remove('closing');
+        lightbox.classList.add('active');
+
+        // Calculate FLIP: offset from center to source image position
+        const centerX = window.innerWidth  / 2;
+        const centerY = window.innerHeight / 2;
+        const srcCX   = rect.left + rect.width  / 2;
+        const srcCY   = rect.top  + rect.height / 2;
+
+        // After the image loads, determine its rendered size then animate
+        lightboxImg.onload = () => {
+          // Scale: how small the source image is relative to the lightbox image
+          const lbW     = lightboxImg.offsetWidth;
+          const lbH     = lightboxImg.offsetHeight;
+          const scaleX  = rect.width  / lbW;
+          const scaleY  = rect.height / lbH;
+          const scale   = Math.min(scaleX, scaleY);
+          const tx      = srcCX - centerX;
+          const ty      = srcCY - centerY;
+
+          // Start at source position
+          lightboxImg.style.transition = 'none';
+          lightboxImg.style.transform  = `translate(${tx}px, ${ty}px) scale(${scale})`;
+
+          // Force reflow then animate to center
+          lightboxImg.getBoundingClientRect();
+          lightboxImg.style.transition = 'transform 0.5s ease';
+          lightboxImg.style.transform  = 'translate(0, 0) scale(1)';
+        };
+
+        // If image is cached, onload may not fire; trigger manually
+        if (lightboxImg.complete) lightboxImg.onload();
+      });
+    });
+
+    // Close on backdrop click
+    lightbox.addEventListener('click', (e) => {
+      if (e.target !== lightboxImg) closeLightbox();
+    });
+
+    // Close on image click
+    lightboxImg.addEventListener('click', closeLightbox);
+  </script>
 
 </body>
 </html>
