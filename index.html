@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portfolio — Lorem Ipsum</title>
+  <title>Portfolio — KEG Visuals</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -44,7 +44,6 @@
       justify-content: space-between;
       padding: 1.25rem clamp(1.5rem, 5vw, 4rem);
       background: rgba(245, 243, 238, 0.88);
-      backdrop-filter: blur(8px);
       border-bottom: 0.5px solid var(--rule);
     }
 
@@ -55,6 +54,15 @@
       letter-spacing: 0.02em;
       color: var(--ink);
       text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .nav-logo img {
+      height: 32px;
+      width: auto;
+      display: block;
     }
 
     .nav-links {
@@ -193,6 +201,8 @@
     .project-card.span-8  { grid-column: span 8; }
     .project-card.span-6  { grid-column: span 6; }
     .project-card.span-4  { grid-column: span 4; }
+    .project-card.span-5  { grid-column: span 5; }
+    .project-card.span-7  { grid-column: span 7; }
 
     .project-images {
       border: 0.5px solid var(--rule);
@@ -205,17 +215,33 @@
       grid-template-columns: 1fr 1fr;
     }
 
-    .project-images.pair img {
-      width: 100%;
+    .brochure-slot {
+      position: relative;
       aspect-ratio: 1.287;
-      object-fit: contain;
-      display: block;
+      overflow: hidden;
       background: var(--surface);
     }
 
-    .project-images.pair img:first-child {
+    .brochure-slot:first-child {
       border-right: 0.5px solid var(--rule);
     }
+
+    .brochure-flat,
+    .brochure-mockup {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      transition: opacity 0.15s ease;
+    }
+
+    .brochure-flat  { opacity: 0; }
+    .brochure-mockup { opacity: 1; }
+
+    .brochure-slot:hover .brochure-flat   { opacity: 1; }
+    .brochure-slot:hover .brochure-mockup { opacity: 0; }
 
     .project-images.logo-set {
       display: flex;
@@ -303,6 +329,40 @@
       letter-spacing: 0.08em;
       margin-top: 0.25rem;
       text-transform: uppercase;
+    }
+
+    /* ── XTREME LUBE IMAGE SET ─────────────────── */
+    .project-images.xtreme-set {
+      display: flex;
+      flex-direction: column;
+      border: 0.5px solid var(--rule);
+      background: var(--surface);
+      overflow: hidden;
+    }
+
+    .project-images.xtreme-set .xtreme-banner {
+      width: 100%;
+      aspect-ratio: 2.702;
+      object-fit: contain;
+      display: block;
+      background: var(--surface);
+      border-bottom: 0.5px solid var(--rule);
+    }
+
+    .project-images.xtreme-set .xtreme-stacked {
+      width: 100%;
+      object-fit: contain;
+      display: block;
+      background: var(--surface);
+      border-top: 0.5px solid var(--rule);
+    }
+
+    .project-images.xtreme-set .xtreme-stacked.ratio-near-square {
+      aspect-ratio: 1.067;
+    }
+
+    .project-images.xtreme-set .xtreme-stacked.ratio-portrait {
+      aspect-ratio: 0.868;
     }
 
     /* ── VIDEO ADS ─────────────────────────────── */
@@ -475,18 +535,25 @@
     /* ── RESPONSIVE ────────────────────────────── */
     @media (max-width: 900px) {
       #hero {
-        grid-template-columns: 1fr;
-        align-items: start;
-        min-height: auto;
-        gap: 2.5rem;
-        padding-top: 3rem;
+        min-height: 60vh;
+      }
+
+      .hero-name {
+        font-size: clamp(2.5rem, 10vw, 4rem);
+      }
+
+      .hero-desc {
+        font-size: 0.9rem;
+        max-width: 100%;
       }
 
       .projects-grid { grid-template-columns: 1fr 1fr; }
 
       .project-card.span-12,
       .project-card.span-8,
+      .project-card.span-7,
       .project-card.span-6,
+      .project-card.span-5,
       .project-card.span-4 { grid-column: span 2; }
 
       .project-images.pair { grid-template-columns: 1fr; }
@@ -502,6 +569,7 @@
       }
 
       .video-grid { grid-template-columns: 1fr; }
+      .hero-bg { object-position: center center; }
       .nav-links { display: none; }
     }
 
@@ -509,7 +577,9 @@
       .projects-grid { grid-template-columns: 1fr; }
       .project-card.span-12,
       .project-card.span-8,
+      .project-card.span-7,
       .project-card.span-6,
+      .project-card.span-5,
       .project-card.span-4 { grid-column: span 1; }
       .project-images.quad { grid-template-columns: 1fr 1fr; }
       .skills-columns { grid-template-columns: 1fr; }
@@ -520,7 +590,7 @@
 
   <!-- NAV -->
   <nav>
-    <a href="#" class="nav-logo">Lorem Ipsum</a>
+    <a href="#" class="nav-logo"><img src="images/Logo.png" alt="KEG Visuals logo" />KEG Visuals</a>
     <ul class="nav-links">
       <li><a href="#projects">Work</a></li>
       <li><a href="#video-ads">Motion</a></li>
@@ -533,13 +603,13 @@
 
     <!-- HERO -->
     <section id="hero">
-      <img class="hero-bg" src="images/header.png" alt="Portfolio header image" />
+      <img class="hero-bg" src="images/header.jpg" alt="Portfolio header image" />
       <div class="hero-overlay"></div>
       <div class="hero-left">
-        <p class="hero-eyebrow">Visual Designer &amp; Art Director</p>
-        <h1 class="hero-name">Lorem<br><em>Ipsum</em></h1>
+        <p class="hero-eyebrow">Visual Design &amp; Production</p>
+        <h1 class="hero-name">Kris Goedelman<br><em>KEG Visuals</em></h1>
         <p class="hero-desc">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, ut enim ad minim veniam.
+          In-house designer with experience in brand identity, print, social media advertising, and full-service video production. Available for full-time roles.
         </p>
       </div>
     </section>
@@ -552,15 +622,20 @@
         <!-- K9 Elite Brochure — full width pair -->
         <div class="project-card span-12">
           <div class="project-images pair">
-            <img src="images/inside_3-23.png" alt="K9 Elite brochure interior" />
-            <img src="images/outside_3-23.png" alt="K9 Elite brochure exterior" />
+            <div class="brochure-slot">
+              <img class="brochure-flat" src="images/outside_3-23.png" alt="K9 Elite brochure exterior flat" loading="lazy" />
+              <img class="brochure-mockup" src="images/BrochureOut.png" alt="K9 Elite brochure exterior mockup" loading="lazy" />
+            </div>
+            <div class="brochure-slot">
+              <img class="brochure-flat" src="images/inside_3-23.png" alt="K9 Elite brochure interior flat" loading="lazy" />
+              <img class="brochure-mockup" src="images/BrochureIn.png" alt="K9 Elite brochure interior mockup" loading="lazy" />
+            </div>
           </div>
           <div class="project-info">
             <div>
               <p class="project-title">K9 Elite Dog Training</p>
               <p class="project-category">Print / Brochure</p>
             </div>
-            <span class="project-year">2023</span>
           </div>
         </div>
 
@@ -568,14 +643,13 @@
         <div class="project-card span-6">
           <div class="project-images logo-set">
             <img class="logo-banner" src="images/HKNV_FullLogo.png" alt="Hawk Navigations full logo" />
-            <img class="logo-square" src="images/Logo_Final_9-28_LARGE.png" alt="HKNV icon logo" />
+            <img class="logo-square" src="images/HKNVLogo.png" alt="HKNV icon logo" />
           </div>
           <div class="project-info">
             <div>
               <p class="project-title">Hawk Navigations</p>
               <p class="project-category">Logo Design</p>
             </div>
-            <span class="project-year">2023</span>
           </div>
         </div>
 
@@ -589,25 +663,25 @@
               <p class="project-title">Diamonds — Jaylyn</p>
               <p class="project-category">Logo Design</p>
             </div>
-            <span class="project-year">2023</span>
           </div>
         </div>
 
-        <!-- OKSubies Facebook Ad — 4 cols -->
+        <!-- Xtreme Lube Ads — 5 cols -->
         <div class="project-card span-4">
-          <div class="project-images single">
-            <img class="ratio-square" src="images/AD_Sample.png" alt="OKSubies special sale Facebook ad" />
+          <div class="project-images xtreme-set">
+            <img class="xtreme-banner" src="images/Header_Sample.png" alt="Xtreme Lube Facebook header" />
+            <img class="xtreme-stacked ratio-near-square" src="images/AD_Sample.png" alt="OKSubies special sale Facebook ad" />
+            <img class="xtreme-stacked ratio-portrait" src="images/Another_Sample.png" alt="Xtreme Lube car wash ad" />
           </div>
           <div class="project-info">
             <div>
-              <p class="project-title">OKSubies</p>
-              <p class="project-category">Social Media / Ad</p>
+              <p class="project-title">Xtreme Lube</p>
+              <p class="project-category">Social Media / Ads</p>
             </div>
-            <span class="project-year">2024</span>
           </div>
         </div>
 
-        <!-- Sooner Indian Motorcycle Instagram Ads — 8 cols, 2x2 -->
+        <!-- Sooner Indian Motorcycle Instagram Ads — 7 cols, 2x2 -->
         <div class="project-card span-8">
           <div class="project-images quad">
             <img src="images/ExampleModernPower.png" alt="Indian Scout Classic ad" />
@@ -620,7 +694,6 @@
               <p class="project-title">Sooner Indian Motorcycle</p>
               <p class="project-category">Social Media / Ads</p>
             </div>
-            <span class="project-year">2024</span>
           </div>
         </div>
 
@@ -644,10 +717,9 @@
           </div>
           <div class="project-info">
             <div>
-              <p class="project-title">Lorem Ipsum</p>
+              <p class="project-title">All-n-One Marine - Skeeter ZXE</p>
               <p class="project-category">Video Ad</p>
             </div>
-            <span class="project-year">2024</span>
           </div>
         </div>
 
@@ -663,10 +735,9 @@
           </div>
           <div class="project-info">
             <div>
-              <p class="project-title">Lorem Ipsum</p>
+              <p class="project-title">All-n-One Marine - G3 1910 SE</p>
               <p class="project-category">Video Ad</p>
             </div>
-            <span class="project-year">2024</span>
           </div>
         </div>
 
@@ -678,7 +749,7 @@
       <div>
         <p class="section-label">Skills &amp; tools</p>
         <p class="skills-intro">
-          Ut enim ad minim veniam, quis nostrud <em>exercitation</em> ullamco laboris nisi ut aliquip ex ea commodo.
+          Graphic design and video production work spanning brand identity, print, social advertising, and full-service video.
         </p>
       </div>
 
@@ -689,8 +760,7 @@
             <li>Adobe Illustrator</li>
             <li>Adobe Photoshop</li>
             <li>Adobe InDesign</li>
-            <li>Figma</li>
-            <li>Procreate</li>
+            <li>Davinci Resolve</li>
           </ul>
         </div>
         <div>
@@ -699,25 +769,23 @@
             <li>Brand Identity</li>
             <li>Editorial Design</li>
             <li>Typography</li>
-            <li>Art Direction</li>
-            <li>Illustration</li>
+            <li>Logo design</li>
+            <li>Social media advertising</li>
+            <li>Video advertising</li>
           </ul>
         </div>
         <div>
-          <p class="skill-group-title">Production</p>
+          <p class="skill-group-title">Video Production</p>
           <ul class="skill-list">
-            <li>Print Production</li>
-            <li>Colour Management</li>
-            <li>Packaging</li>
-            <li>Motion Graphics</li>
+            <li>On-location shooting</li>
+            <li>Audio recording</li>
+            <li>Colour correction</li>
           </ul>
         </div>
         <div>
           <p class="skill-group-title">Soft Skills</p>
           <ul class="skill-list">
-            <li>Client Presentation</li>
             <li>Creative Direction</li>
-            <li>Project Management</li>
             <li>Conceptual Thinking</li>
           </ul>
         </div>
@@ -728,29 +796,17 @@
     <section id="contact">
       <div>
         <p class="section-label">Get in touch</p>
-        <h2 class="contact-heading">Let's work<br><em>together</em></h2>
+        <h2 class="contact-heading">Let's get to <br><em>work.</em></h2>
       </div>
 
       <div class="contact-details">
         <div class="contact-row">
           <span class="contact-label">Email</span>
-          <span class="contact-value"><a href="mailto:lorem@example.com">lorem@example.com</a></span>
-        </div>
-        <div class="contact-row">
-          <span class="contact-label">Instagram</span>
-          <span class="contact-value"><a href="#">@loremipsum</a></span>
-        </div>
-        <div class="contact-row">
-          <span class="contact-label">LinkedIn</span>
-          <span class="contact-value"><a href="#">Lorem Ipsum</a></span>
+          <span class="contact-value"><a href="mailto:KEGVisuals@gmail.com">KEGVisuals@gmail.com</a></span>
         </div>
         <div class="contact-row">
           <span class="contact-label">Location</span>
-          <span class="contact-value">Lorem City, LR</span>
-        </div>
-        <div class="contact-row">
-          <span class="contact-label">Availability</span>
-          <span class="contact-value">Open to projects</span>
+          <span class="contact-value">Oklahoma City, OK</span>
         </div>
       </div>
     </section>
@@ -758,8 +814,8 @@
   </main>
 
   <footer>
-    <span class="footer-name">Lorem Ipsum</span>
-    <span class="footer-copy">&copy; 2025. All rights reserved.</span>
+    <span class="footer-name">KEG Visuals</span>
+    <span class="footer-copy">&copy; 2026. All rights reserved.</span>
   </footer>
 
 </body>
